@@ -1,50 +1,45 @@
 public void setup()
 {
-	size(1000, 1000);
-	background(0);
-	fill(255);
-	noStroke();
-	//triangle(500 - 400 / 2, 500 + 400 / 2, 500, 500 - (float) (400 * Math.sqrt(3) / 2) + 400 / 2, 500 + 400 / 2, 500 + 400 / 2);
-	fractal(500,500,400);
+	size(1000,1000);
+	frameRate(60);
+	colorMode(HSB);
 }
+float ang = -PI/2;
 public void draw()
 {
-
+	background(0);   
+	if (c >= 255)  c=0;  else  c+= 0.1;
+	stroke(c, 255, 255);
+	noFill();
+	ellipse(500, 500, 200, 200);
+	fractal(500, 500, 200, ang, c);
+	ang += 0.01;
 }
 public void mouseDragged()//optional
 {
 
 }
-public void fractal(float x, float y, float len) 
+float c = 0;
+float colorchange = 5;
+float shrinkage = 2;
+public void fractal(float x, float y, float rad, float ang, float mycolor) 
 {
-	if (len > 1){  
-		float p1x = x - len / 2;
-		float p1y = y + len / 2;
-		float p2x = x;
-		float p2y = y - (float) (len * Math.sqrt(3) / 2) + len / 2;
-		float p3x = x + len / 2; 
-		float p3y = y + len / 2;
-
-		float cx = (p1x + p2x + p3x) / 3;
-		float cy = (p1y + p2y + p3y) / 3;
-
-		//triangle(p1x, p1y, p2x, p2y, p3x, p3y);
-		float deg = PI/5;
-		stroke(0);
-		ellipse(rotatePointX(p1x, p1y, cx, cy, deg), rotatePointY(p1x, p1y, cx, cy, deg), 5, 5);
-		ellipse(rotatePointX(p2x, p2y, cx, cy, deg), rotatePointY(p2x, p2y, cx, cy, deg), 5, 5);
-		ellipse(rotatePointX(p3x, p3y, cx, cy, deg), rotatePointY(p3x, p3y, cx, cy, deg), 5, 5);
+	if (rad > 1){  
+		if (mycolor >= 255)  mycolor=0;  else  mycolor += colorchange;
+			stroke(mycolor, 255, 255);
+		ellipse((float) (x + Math.cos(ang) * (rad - rad / (shrinkage*shrinkage))), (float) (y + Math.sin(ang) * (rad - rad / (shrinkage*shrinkage))), rad / shrinkage, rad / shrinkage);
 		
-		ellipse(cx, cy, 5, 5);
-
-		fill(255);
-		noStroke();
-		triangle(rotatePointX(p1x, p1y, cx, cy, deg), rotatePointY(p1x, p1y, cx, cy, deg), rotatePointX(p2x, p2y, cx, cy, deg), rotatePointY(p2x, p2y, cx, cy, deg), rotatePointX(p2x, p2y, cx, cy, deg), rotatePointY(p2x, p2y, cx, cy, deg));
+		line(
+			(float) (x + Math.cos(ang) * (rad - rad / (shrinkage*shrinkage))), 
+			(float) (y + Math.sin(ang) * (rad - rad / (shrinkage*shrinkage))), 
+			(float) (x + Math.cos(ang) * (rad - rad / (shrinkage*shrinkage)) + Math.cos(ang * shrinkage) * (rad) / (shrinkage*shrinkage)), 
+			(float) (y + Math.sin(ang) * (rad - rad / (shrinkage*shrinkage)) + Math.sin(ang * shrinkage) * (rad) / (shrinkage*shrinkage))
+			);
 	}
 }
 
 public float rotatePointX(float x, float y, float x1, float y1, float rads){
-	return (float)(Math.sqrt((x - x1)*(x - x1) + (y - y1)*(y - y1))) * (float)Math.cos( atan((x - x1)*(x - x1)/(y - y1)*(y - y1))) + x1;
+	return (float)(Math.sqrt((x - x1)*(x - x1) + (y - y1)*(y - y1))) * (float)Math.cos(atan((x - x1)*(x - x1)/(y - y1)*(y - y1))) + x1;
 }
 
 public float rotatePointY(float x, float y, float x1, float y1, float rads){
