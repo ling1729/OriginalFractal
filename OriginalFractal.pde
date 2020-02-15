@@ -30,7 +30,7 @@ public void mouseDragged()//optional
 }
 float c = 0;
 float colorchange = 10;
-float shrinkage = 2;
+float shrinkage = 1.618;
 
 public void fractal(float x, float y, float rad, float ang, float mycolor) 
 {
