@@ -1,39 +1,54 @@
 public void setup()
 {
 	size(1000,1000);
-	frameRate(60);
+	frameRate(30);
 	colorMode(HSB);
 }
 float ang = -PI/2;
 public void draw()
 {
 	background(0);   
-	if (c >= 255)  c=0;  else  c+= 0.1;
+	if (c >= 255)  c=0;  else  c+= 0.3;
 	stroke(c, 255, 255);
 	noFill();
 	ellipse(500, 500, 200, 200);
+	line(500, 500, 500 + 200 * Math.cos(ang), 500 + 200 * Math.sin(ang));
 	fractal(500, 500, 200, ang, c);
-	ang += 0.01;
+	ang += 0.02;
 }
 public void mouseDragged()//optional
 {
 
 }
 float c = 0;
-float colorchange = 5;
+float colorchange = 10;
 float shrinkage = 2;
 public void fractal(float x, float y, float rad, float ang, float mycolor) 
 {
 	if (rad > 1){  
 		if (mycolor >= 255)  mycolor=0;  else  mycolor += colorchange;
 			stroke(mycolor, 255, 255);
-		ellipse((float) (x + Math.cos(ang) * (rad - rad / (shrinkage*shrinkage))), (float) (y + Math.sin(ang) * (rad - rad / (shrinkage*shrinkage))), rad / shrinkage, rad / shrinkage);
+
+		ellipse(
+			(float) (x + Math.cos(ang) * (rad / 2 + rad / (shrinkage * 2))), 
+			(float) (y + Math.sin(ang) * (rad / 2 + rad / (shrinkage * 2))), 
+			rad / shrinkage, 
+			rad / shrinkage
+			);
 		
 		line(
-			(float) (x + Math.cos(ang) * (rad - rad / (shrinkage*shrinkage))), 
-			(float) (y + Math.sin(ang) * (rad - rad / (shrinkage*shrinkage))), 
-			(float) (x + Math.cos(ang) * (rad - rad / (shrinkage*shrinkage)) + Math.cos(ang * shrinkage) * (rad) / (shrinkage*shrinkage)), 
-			(float) (y + Math.sin(ang) * (rad - rad / (shrinkage*shrinkage)) + Math.sin(ang * shrinkage) * (rad) / (shrinkage*shrinkage))
+			(float) (x + Math.cos(ang) * (rad / 2 + rad / (shrinkage * 2))), 
+			(float) (y + Math.sin(ang) * (rad / 2 + rad / (shrinkage * 2))), 
+			(float) (x + Math.cos(ang) * (rad / 2 + rad / (shrinkage * 2)) + Math.cos(ang * shrinkage) * (rad) / (shrinkage * 2)), 
+			(float) (y + Math.sin(ang) * (rad / 2 + rad / (shrinkage * 2)) + Math.sin(ang * shrinkage) * (rad) / (shrinkage * 2))
+			);
+
+		fractal(
+			(float) (x + Math.cos(ang) * (rad / 2 + rad / (shrinkage * 2))), 
+			(float) (y + Math.sin(ang) * (rad / 2 + rad / (shrinkage * 2))), 
+			rad / shrinkage,
+			ang * 2,
+			mycolor + colorchange
 			);
 	}
 }
