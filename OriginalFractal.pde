@@ -5,6 +5,9 @@ public void setup()
 	colorMode(HSB);
 }
 float ang = -PI/2;
+
+ArrayList<float[]> points = new ArrayList<float[]>();
+
 public void draw()
 {
 	background(0);   
@@ -15,6 +18,11 @@ public void draw()
 	line(500, 500, (float) (500 + 100 * Math.cos(ang)), (float) (500 + 100 * Math.sin(ang)));
 	fractal(500, 500, 200, ang, c);
 	ang += 0.02;
+	for(float[] thing : points){
+		noStroke();
+		fill(thing[2], 255, 255);
+		ellipse(thing[0], thing[1], 2, 2);
+	}
 }
 public void mouseDragged()//optional
 {
@@ -23,9 +31,10 @@ public void mouseDragged()//optional
 float c = 0;
 float colorchange = 10;
 float shrinkage = 2;
+
 public void fractal(float x, float y, float rad, float ang, float mycolor) 
 {
-	if (rad > 1){  
+	if (rad > 0.5){  
 		if (mycolor >= 255)  mycolor=0;  else  mycolor += colorchange;
 			stroke(mycolor, 255, 255);
 
@@ -50,13 +59,7 @@ public void fractal(float x, float y, float rad, float ang, float mycolor)
 			ang * 2,
 			mycolor + colorchange
 			);
+	} else {
+		points.add(new float[]{x, y, c});
 	}
-}
-
-public float rotatePointX(float x, float y, float x1, float y1, float rads){
-	return (float)(Math.sqrt((x - x1)*(x - x1) + (y - y1)*(y - y1))) * (float)Math.cos(atan((x - x1)*(x - x1)/(y - y1)*(y - y1))) + x1;
-}
-
-public float rotatePointY(float x, float y, float x1, float y1, float rads){
-	return (float)(Math.sqrt((x - x1)*(x - x1) + (y - y1)*(y - y1))) * (float)Math.sin( atan((x - x1)*(x - x1)/(y - y1)*(y - y1))) + y1;
 }
