@@ -12,7 +12,7 @@ public void draw()
 	stroke(c, 255, 255);
 	noFill();
 	ellipse(500, 500, 200, 200);
-	line(500, 500, 500 + 200 * Math.cos(ang), 500 + 200 * Math.sin(ang));
+	line(500, 500, (float) (500 + 100 * Math.cos(ang)), (float) (500 + 100 * Math.sin(ang)));
 	fractal(500, 500, 200, ang, c);
 	ang += 0.02;
 }
