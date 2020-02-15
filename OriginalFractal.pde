@@ -18,19 +18,23 @@ public void draw()
 	line(500, 500, (float) (500 + 100 * Math.cos(ang)), (float) (500 + 100 * Math.sin(ang)));
 	fractal(500, 500, 200, ang, c);
 	ang += 0.02;
-	for(float[] thing : points){
-		noStroke();
-		fill(thing[2], 255, 255);
-		ellipse(thing[0], thing[1], 2, 2);
+	if(toggle){
+		for(float[] thing : points){
+			noStroke();
+			fill(thing[2], 255, 255);
+			ellipse(thing[0], thing[1], 2, 2);
+		}
 	}
 }
-public void mouseDragged()//optional
-{
+boolean toggle = true;
 
+public void mouseClicked()//optional
+{
+	toggle = !toggle;
 }
 float c = 0;
 float colorchange = 10;
-float shrinkage = 1.618;
+float shrinkage = 2;
 
 public void fractal(float x, float y, float rad, float ang, float mycolor) 
 {
