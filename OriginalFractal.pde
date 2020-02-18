@@ -22,7 +22,7 @@ public void draw()
 		for(float[] thing : points){
 			noStroke();
 			fill(thing[2], 255, 255);
-			ellipse(thing[0], thing[1], 2, 2);
+			ellipse(thing[0], thing[1], 1.5, 1.5);
 		}
 	}
 }
